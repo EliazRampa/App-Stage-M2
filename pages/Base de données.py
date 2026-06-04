@@ -15,7 +15,7 @@ geo_data = Path("./pages/assets/database/test_coulee.geojson")
 csv = Path("./pages/assets/database/test_database.csv")
 excel = Path("./pages/assets/database/PdF-sample-data-base-2014-2024.xls")
 bulk_excel = Path("./pages/assets/database/bulk_db.xls")
-#glass_excel = Path("./pages/assets/database/glass_db.xls")
+glass_excel = Path("./pages/assets/database/glass_db.xls")
 
 
 
@@ -49,6 +49,8 @@ for feature in data["features"]:
     sample_table = sample.to_html(index= False, classes="table table-striped table-hover table-condensed table-responsive")
     bulk = pandas.read_excel(bulk_excel, sheet_name=str(cle), engine="xlrd", usecols=col)
     bulk_table = bulk.to_html(index= False, classes="table table-striped table-hover table-condensed table-responsive")
+    glass = pandas.read_excel(glass_excel, sheet_name=str(cle), engine="xlrd", usecols=col)
+    glass_table = glass.to_html(index= False, classes="table table-striped table-hover table-condensed table-responsive")
 
     html = f"""
     <!DOCTYPE html>
@@ -79,7 +81,7 @@ for feature in data["features"]:
     <br> 
     <br>
     Chimie du verre:
-    
+    <pre> {glass_table} </pre>
     <br>
     <h2> Modèle Numérique de Terrain (MNT)</h2>
     DEM utilisé: {data[11]}
