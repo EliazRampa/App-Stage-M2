@@ -14,7 +14,7 @@ dict = {}
 geo_data = Path("./pages/assets/database/test_coulee.geojson")
 csv = Path("./pages/assets/database/test_database.csv")
 excel = Path("./pages/assets/database/PdF-sample-data-base-2014-2024.xls")
-#bulk_excel = Path("./pages/assets/database/bulk_db.xls")
+bulk_excel = Path("./pages/assets/database/bulk_db.xls")
 #glass_excel = Path("./pages/assets/database/glass_db.xls")
 
 
@@ -47,6 +47,8 @@ for feature in data["features"]:
     data = df.loc[df['flow_id']==cle].values.flatten().tolist()
     sample = pandas.read_excel(excel, sheet_name=str(cle), engine="xlrd", skiprows=1, usecols=col)
     sample_table = sample.to_html(index= False, classes="table table-striped table-hover table-condensed table-responsive")
+    bulk = pandas.read_excel(bulk_excel, sheet_name=str(cle), engine="xlrd", usecols=col)
+    bulk_table = bulk.to_html(index= False, classes="table table-striped table-hover table-condensed table-responsive")
 
     html = f"""
     <!DOCTYPE html>
@@ -73,7 +75,7 @@ for feature in data["features"]:
     Porosité : {data[8]} %<br>
     Température de l'éruption: {data[9]} °C soit {data[10]} K <br> <br>
     Chimie sur roche total:
-    
+    <pre> {bulk_table} </pre>
     <br> 
     <br>
     Chimie du verre:
@@ -134,7 +136,7 @@ baseTree = {
 
 TreeLayerControl(overlay_tree=overlay_tree, base_tree= baseTree, opened_symbol='&#8863; &#x1f5c1;', closed_symbol='&#8862; &#x1f5c0;').add_to(m)
 
-m.save('./assets/database_PdF_2014_2023.html')
+m.save('database_PdF_2014_2023.html')
 
 ### page
 st.set_page_config(layout='wide')
