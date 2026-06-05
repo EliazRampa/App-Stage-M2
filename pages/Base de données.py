@@ -52,42 +52,80 @@ for feature in data["features"]:
     glass = pandas.read_excel(glass_excel, sheet_name=str(cle), engine="xlrd", usecols=col)
     glass_table = glass.to_html(index= False, classes="table table-striped table-hover table-condensed table-responsive")
 
-    html = f"""
-    <!DOCTYPE html>
-    <html>
-    <body>
-    <h1> Données de l'éruption</h1>
-    <h2> Données Sources </h2>
-    Date de début: {data[1]} <br>
-    Date de fin: {data[2]} <br>
-    Durée: {data[3]} jours 
-    Volumes de lave émis: {data[5]} Mm<sup>3</sup>
-    <br>
-    <br>
-    TADR: {data[4]} m<sup>3</sup>/s <br>
-
-    <h2> Échantillons </h2>
-    Lame minces : <pre> {data[6]}  </pre> <br>
+    if cle != 20230702.0:
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <body>
+        <h1> Données de l'éruption</h1>
+        <h2> Données Sources </h2>
+        Date de début : {data[1]} [8] <br>
+        Date de fin: {data[2]} [8] <br>
+        Durée : {data[3]} jours [8]
+        Volumes de lave émis: {data[5]} Mm<sup>3</sup> [8]
+        <br>
+        <br>
+        TADR: {data[4]} m<sup>3</sup>/s <br>
     
-    Liste des échantillons:
-    <pre> {sample_table} </pre>
+        <h2> Échantillons </h2>
+        Lame minces : <pre> {data[6]}  </pre> <br>
+        
+        Liste des échantillons:
+        <pre> {sample_table} </pre> [8,5]
+        
+        <h2> Paramètres Pétrochimiques</h2>
+        Cristallinité: {data[7]} % <br>
+        Porosité : {data[8]} %<br> [5]
+        Température de l'éruption: {data[9]} °C soit {data[10]} K <br> <br>
+        Chimie sur roche total [13] :
+        <pre> {bulk_table} </pre>
+        <br> 
+        <br>
+        Chimie du verre [5,9]:
+        <pre> {glass_table} </pre>
+        <br>
+        <h2> Modèle Numérique de Terrain (MNT)</h2>
+        DEM utilisé: {data[11]}
+        </body>
+        </html>
+        """
+    else:
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <body>
+        <h1> Données de l'éruption</h1>
+        <h2> Données Sources </h2>
+        Date de début : {data[1]} [8] <br>
+        Date de fin: {data[2]} [8] <br>
+        Durée : {data[3]} jours [8]
+        Volumes de lave émis: {data[5]} Mm<sup>3</sup> [8]
+        <br>
+        <br>
+        TADR: {data[4]} m<sup>3</sup>/s <br>
     
-    <h2> Paramètres Pétrochimiques</h2>
-    Cristallinité: {data[7]} % <br>
-    Porosité : {data[8]} %<br>
-    Température de l'éruption: {data[9]} °C soit {data[10]} K <br> <br>
-    Chimie sur roche total:
-    <pre> {bulk_table} </pre>
-    <br> 
-    <br>
-    Chimie du verre:
-    <pre> {glass_table} </pre>
-    <br>
-    <h2> Modèle Numérique de Terrain (MNT)</h2>
-    DEM utilisé: {data[11]}
-    </body>
-    </html>
-    """
+        <h2> Échantillons </h2>
+        Lame minces : <pre> {data[6]}  </pre> <br>
+        
+        Liste des échantillons:
+        <pre> {sample_table} </pre> [8,5]
+        
+        <h2> Paramètres Pétrochimiques</h2>
+        Cristallinité: {data[7]} % <br>
+        Porosité : {data[8]} %<br> [5]
+        Température de l'éruption: {data[9]} °C soit {data[10]} K <br> <br>
+        Chimie sur roche total [1] :
+        <pre> {bulk_table} </pre>
+        <br> 
+        <br>
+        Chimie du verre [5,9]:
+        <pre> {glass_table} </pre>
+        <br>
+        <h2> Modèle Numérique de Terrain (MNT)</h2>
+        DEM utilisé: {data[11]}
+        </body>
+        </html>
+        """
 
     iframe = branca.element.IFrame(html=html, width=500, height=300)
     popup = folium.Popup(iframe, max_width=500)
@@ -103,11 +141,22 @@ for feature in data["features"]:
 ref_html = f'''
     <h2> Légendes  </h2>
     [X] : n° de la références <br>
-    <span style="color:red;"> (P) </span> : obtenue sur des pyroclatses <br>
-    <em style="color:red;"> REUXXXXXX-X </em> : Échantillon non analysé
-    <br> <br>
+    (P) : obtenue sur des pyroclatses <br>
+    <br> 
     <h2> Références </h2>
-    
+    [1] Besson P Données chimique sur roche total pour juillet 2023 acquise par XRF IPGP <br><br>
+    [2] Campus A, Villeneuve N, Chevrel O, et al (2025) Effusion Rate Trends at Piton de la Fournaise: A Review of 24 Years of Space‐Based Thermal Observation. JGR Solid Earth 130:e2024JB030962.  <a href="https://doi.org/10.1029/2024JB030962" target="_blank"> https://doi.org/10.1029/2024JB030962 </a> <br><br>
+    [3] Coppola D, Laiolo M, Cigolini C, et al (2016) Enhanced volcanic hot-spot detection using MODIS IR data: results from the MIROVA system. SP 426:181–205.  <a href="https://doi.org/10.1144/SP426.5" target="_blank"> https://doi.org/10.1144/SP426.5 </a><br><br>
+    [4] Gouhier M, Guéhenneux Y, Labazuy P, et al (2016) HOTVOLC: a web-based monitoring system for volcanic hot spots. SP 426:223–241.  <a href="https://doi.org/10.1144/SP426.31" target="_blank"> https://doi.org/10.1144/SP426.31 </a><br><br>
+    [5] Gurioli L, Di Muro A (2017) DynVolc Database: Datasets Collection composed by textural and chemical data from volcano eruption.<br><br>
+    [6] Harris A, Chevrel M, Coppola D, et al (2019) Validation of an integrated satellite-data-driven response to an effusive crisis: the April–May 2018 eruption of Piton de la Fournaise. Annals of Geophysics 61:8. <a href="https://doi.org/10.4401/ag-7972" target="_blank"> https://doi.org/10.4401/ag-7972 </a><br><br>
+    [7] Harris A, Mannini S, Thivet S, et al (2020) How shear helps lava to flow. Geology 48:154–158.  <a href="https://doi.org/10.1130/G47110.1" target="_blank">https://doi.org/10.1130/G47110.1</a> <br><br>
+    [8] Institut De Physique Du Globe De Paris (IPGP) (2026) Data collection of the volcanological observatory of Piton de la Fournaise<br><br>
+    [9] Médard E (2026) PdF2018-2023<br><br>
+    [10] Rampa E (2026) Compilation des données manquantes pour: Rétrospectives des modélisations thermo-rhéologiques des coulées de laves au Piton de la Fournaise <br><br>
+    [11] Sundermeyer C, Di Muro A, Gordeychik B, Wörner G (2020) Timescales of magmatic processes during the eruptive cycle 2014–2015 at Piton de la Fournaise, La Réunion, obtained from Mg–Fe diffusion modelling in olivine. Contrib Mineral Petrol 175:1.  <a href="https://doi.org/10.1007/s00410-019-1642-y" target="_blank"> https://doi.org/10.1007/s00410-019-1642-y </a> <br><br> 
+    [12] Thivet S, Gurioli L, Di Muro A (2020) Basaltic dyke eruptions at Piton de La Fournaise: characterization of the eruptive products with implications for reservoir conditions, conduit processes and eruptive dynamics. Contrib Mineral Petrol 175:26. <a href="https://doi.org/10.1007/s00410-020-1664-5" target="_blank"> https://doi.org/10.1007/s00410-020-1664-5 </a> <br><br>
+    [13] Vlastelic I (2026) Majeurs-Traces-Pb-Sr-2008-2023.OVPF (2026)
 '''
 
 icon_path = "./pages/assets/database/icon_ref.png"
