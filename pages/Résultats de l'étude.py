@@ -17,7 +17,7 @@ st.set_page_config(layout='wide')
 st.title('Résultats de l\'étude')
 
 st.header("Résultats globaux", divider=True)
-tendance_cycle = Path('.:pages/assets/results/globaux/tendance cycle.png')
+tendance_cycle = Path('./pages/assets/results/globaux/tendance cycle.png')
 score_prio = Path('./pages/assets/results/globaux/score prio.png')
 TAS = Path('./pages/assets/results/globaux/diagramme TAS.png')
 chimie_cycle= Path('./pages/assets/results/globaux/chimie cycle.png')
@@ -72,8 +72,7 @@ if compa:
     with colA:
         erup = st.selectbox("Sélectionner l'éruption à afficher", df['name'], key='colA')
 
-        defaut= Path(f"{downflowgo}/{erup} défaut.png")
-        adapt = Path(f"{downflowgo}/{erup} adapté.png")
+        dfo= Path(f"{downflowgo}/{erup}.png")
         er_img = Path(f"{er}/{erup}.png")
         er_img_p1 = Path(f"{er}/{erup} P1.png")
         mm_img = Path(f"{mm}/{erup}.png")
@@ -83,14 +82,10 @@ if compa:
 
         with st.expander(f'Résultats pour {erup}', expanded=True):
             st.subheader('Modèle A', divider=True)
-            if adapt.exists():
-                col1 , col2 = st.columns(2)
-                with col1:
-                    st.write('Paramètres par défaut')
-                with col2:
-                    st.write('Paramètres adapté')
+            if dfo.exists():
+                st.image(dfo)
             else:
-                st.write('Paramètres par défaut')
+                pass
 
             st.subheader('Modèle B', divider=True)
             if er_img_p1.exists():
@@ -133,8 +128,7 @@ if compa:
     with colB:
         erup = st.selectbox("Sélectionner l'éruption à afficher", df['name'], key='colB')
 
-        defaut= Path(f"{downflowgo}/{erup} défaut.png")
-        adapt = Path(f"{downflowgo}/{erup} adapté.png")
+        dfo= Path(f"{downflowgo}/{erup}.png")
         er_img = Path(f"{er}/{erup}.png")
         er_img_p1 = Path(f"{er}/{erup} P1.png")
         mm_img = Path(f"{mm}/{erup}.png")
@@ -144,14 +138,9 @@ if compa:
 
         with st.expander(f'Résultats pour {erup}', expanded=True):
             st.subheader('Modèle A', divider=True)
-            if adapt.exists():
-                col1 , col2 = st.columns(2)
-                with col1:
-                    st.write('Paramètres par défaut')
-                with col2:
-                    st.write('Paramètres adapté')
+            if dfo.exists():
+                st.image(dfo)
             else:
-                st.write("Paramètres par défaut")
                 pass
 
             st.subheader('Modèle B', divider=True)
@@ -196,8 +185,7 @@ if compa:
 else:
     erup = st.selectbox("Sélectionner l'éruption à afficher", df['name'])
 
-    defaut= Path(f"{downflowgo}/{erup} défaut.png")
-    adapt = Path(f"{downflowgo}/{erup} adapté.png")
+    dfo= Path(f"{downflowgo}/{erup}.png")
     er_img = Path(f"{er}/{erup}.png")
     er_img_p1 = Path(f"{er}/{erup} P1.png")
     mm_img = Path(f"{mm}/{erup}.png")
@@ -207,15 +195,10 @@ else:
 
     with st.expander(f'Résultats pour {erup}', expanded=True):
         st.subheader('Modèle A', divider=True)
-        if adapt.exists():
-            col1 , col2 = st.columns(2)
-            with col1:
-                st.write('Paramètres par défaut')
-            with col2:
-                st.write('Paramètres adapté')
+        if dfo.exists():
+            st.image(dfo)
         else:
-            st.write("Paramètres par défaut")
-
+            pass
 
         st.subheader('Modèle B', divider=True)
         if er_img_p1.exists():
