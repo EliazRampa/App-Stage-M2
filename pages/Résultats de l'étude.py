@@ -17,17 +17,33 @@ st.set_page_config(layout='wide')
 st.title('Résultats de l\'étude')
 
 st.header("Résultats globaux", divider=True)
-grp_campus = Path('./pages/assets/results/globaux/table grp campus.png')
+tendance_cycle = Path('.:pages/assets/results/globaux/tendance cycle.png')
+score_prio = Path('./pages/assets/results/globaux/score prio.png')
 TAS = Path('./pages/assets/results/globaux/diagramme TAS.png')
+chimie_cycle= Path('./pages/assets/results/globaux/chimie cycle.png')
+table_config = Path('./pages/assets/results/globaux/configuration.png')
 table_downflowgo = Path('./pages/assets/results/globaux/table downflowgo.png')
 stat = Path('./pages/assets/results/globaux/stat adaptation.png')
 gamme_er = Path('./pages/assets/results/globaux/gamme er.png')
 gamme_mm = Path('./pages/assets/results/globaux/gamme mm.png')
 gamme_mmc = Path('./pages/assets/results/globaux/gamme mmc.png')
+carte_avril = Path('./pages/assets/results/globaux/carte avril 2020.png')
+carte_jamais = Path('./pages/assets/results/globaux/carte jamais.png')
 
 with st.container(border=True):
-    st.subheader("Diagramme TAS", divider=True)
+    st.subheader("Paramètre pétrochimiques", divider=True)
+    st.write("Évolution des paramètre pétrochimiques au cours du cycle")
+    st.image(tendance_cycle)
+
+    st.subheader("Chimie", divider=True)
+    st.write("Diagramme Total alkaline silica (TAS)")
     st.image(TAS)
+
+    st.write("Évolution du SiO2 et du NaO + K2O au cours du cycle")
+    st.image(chimie_cycle)
+
+    st.subheader("Paramètres des configurations", divider=True)
+    st.image(table_config)
 
     st.subheader('Modélisation avec DOWNFLOWGO (Modèle A)', divider=True)
     st.write("Tableau de synthèses des modélisation")
@@ -239,3 +255,11 @@ else:
         else:
             st.write('Final')
             st.image(mmc_img)
+
+st.header("Annexes")
+with st.container(border=True):
+    st.subheader("Carte de la coulée de Avril 2020", divider=True)
+    st.image(carte_avril)
+
+    st.subheader('Localisation des coulées qui n\'ont jamais réussi à être modéliser correctement', divider=True)
+    st.image(carte_jamais)
